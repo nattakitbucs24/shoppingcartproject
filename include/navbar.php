@@ -1,88 +1,91 @@
-<!DOCTYPE html >
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <link href="<?php echo $base_url; ?>/assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<?php echo $base_url; ?>/assets/fontawesome/css/fontawesome.min.css" rel="stylesheet">
-    <link href="<?php echo $base_url; ?>/assets/fontawesome/css/brands.min.css" rel="stylesheet">
-    <link href="<?php echo $base_url; ?>/assets/fontawesome/css/solid.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="<?php echo $base_url; ?>/assets/css/bootstrap.min.css" rel="stylesheet"></script>
-    <script src="<?php echo $base_url; ?>/assets/js/bootstrap.min.js" rel="stylesheet"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional Design</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+  body {
+    padding-top: 70px;
+  }
+
+  .navbar {
+    background-color: #212529;
+  }
+
+  .navbar-brand img {
+    height: 50px;
+  }
+
+  .nav-link {
+    color: white !important;
+  }
+
+  .dropdown-menu {
+    background-color: #343a40;
+  }
+
+  .dropdown-item {
+    color: white !important;
+  }
+
+  .dropdown-item:hover {
+    background-color: #495057;
+  }
+  </style>
 </head>
-<body class="p-3 m-0 border-0 bd-example m-0 border-0">
-<nav class="navbar navbar-expand-lg bg-black  fixed-top">
-  <div class="container-fluid">
-  <a class="navbar-brand" aria-current="page" href="<?php echo $base_url; ?>/index.php">
-  <img src="<?php echo $base_url; ?>/assets/images/ninja_logo.png" alt="logo" height="50" class="img-circle" >
-</a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarScroll">
-      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-        <li class="navbar-brand dropdown">
-        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">รายการสินค้า</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="<?php echo $base_url; ?>/product-list.php" >สินค้าทั้งหมด</a></li>
-            <li><a class="dropdown-item" href="<?php echo $base_url; ?>/product_pc.php">อุปกรณ์พีซี</a></li>
-            <li><a class="dropdown-item" href="<?php echo $base_url; ?>/product_console.php">อุปกรณ์คอนโซล</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="<?php echo $base_url; ?>/product_other.php">อุปกร์ณอื่นๆ</a></li>
-          </ul>
-        </li> 
-        <li class="navbar-brand"><a class="nav-link" href="<?php echo $base_url; ?>/cart.php" style="color: white;">ตะกร้าสินค้า </a></li>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="<?php echo $base_url; ?>/index.php">
+        <img src="<?php echo $base_url; ?>/assets/images/ninja_logo.png" alt="logo">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="productDropdown" role="button" data-bs-toggle="dropdown">
+              รายการสินค้า
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="<?php echo $base_url; ?>/product-list.php">สินค้าทั้งหมด</a></li>
+              <li><a class="dropdown-item" href="<?php echo $base_url; ?>/product_pc.php">อุปกรณ์พีซี</a></li>
+              <li><a class="dropdown-item" href="<?php echo $base_url; ?>/product_console.php">อุปกรณ์คอนโซล</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="<?php echo $base_url; ?>/product_other.php">อุปกรณ์อื่นๆ</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="<?php echo $base_url; ?>/cart.php">ตะกร้าสินค้า</a>
+          </li>
+        </ul>
+        <form class="d-flex" method="GET" action="search.php">
+          <input class="form-control me-2" type="search" placeholder="Search" name="keyword">
+          <button class="btn btn-outline-light" type="submit">ค้นหา</button>
+        </form>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="<?php echo $base_url; ?>/signin.php">ล็อกอิน</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="<?php echo $base_url; ?>/signup.php">สมัครสมาชิก</a>
+          </li>
+          <li class="nav-item">
+            <a href="logout.php" class="btn btn-danger ms-2">Logout</a>
+          </li>
+        </ul>
 
-        <li class="navbar-brand dropdown">
-        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">แจ้งการชำระเงิน</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="<?php echo $base_url; ?>/payment.php" >ส่งหลักฐานการชำระเงิน</a></li>
-            <li><hr class="dropdown-divider"></li>
-       
-          </ul>
-        </li> 
-      </ul>      
-        
-      <form class="d-flex" role="search" method="GET" action="search.php">
-                    <label for="Speech Recognition"></label>
-                    <input class="form-control me-2"  placeholder="Search" name="keyword" id="speechToText" onclick="record()" >
-                                <script>
-                                    function record() {
-                                        var recognition = new webkitSpeechRecognition();
-                                        recognition.lang = "th-en";  // Corrected the variable name from "recognit" to "recogni tion"
-
-                                        recognition.onresult = function(event) {
-                                            console.log(event);
-                                            document.getElementById('speechToText').value = event.results[0][0].transcript;  // Corrected the result indexing
-                                        };
-
-                                        recognition.start();
-                                    }
-                                </script>
-                                 <button class="btn btn-outline-success" type="submit">Search</button>
-                                 </form>         
+      </div>
     </div>
-    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-    <li class="navbar-brand"><a class="nav-link" href="<?php echo $base_url; ?>/signin.php" style="color: white;">ล็อกอินเข้าสู่ระบบ</a></li>
-        <li class="navbar-brand"><a class="nav-link" href="<?php echo $base_url; ?>/signup.php" style="color: white;">สมัครสมาชิก</a></li></ul>
-  </div>
-</nav>
-
-
-
-  
-<!-- End Example Code -->
+  </nav>
 </body>
 
 </html>
-
-
