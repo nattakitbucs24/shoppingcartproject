@@ -1,57 +1,74 @@
 <?php 
-    session_start();
-    include 'config.php';
-    require_once 'db.php';
-    if (!isset($_SESSION['user_login'])) {
-        $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ!';
-        header('location: signin.php');
-    }
+session_start();
+include 'config.php';
+require_once 'db.php';
 
+if (!isset($_SESSION['user_login'])) {
+    $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ!';
+    header('location: signin.php');
+    exit();
+}
 ?>
 
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Page</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link href="<?php echo $base_url; ?>/assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<?php echo $base_url; ?>/assets/fontawesome/css/fontawesome.min.css" rel="stylesheet">
-    <link href="<?php echo $base_url; ?>/assets/fontawesome/css/brands.min.css" rel="stylesheet">
-    <link href="<?php echo $base_url; ?>/assets/fontawesome/css/solid.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="<?php echo $base_url; ?>/assets/css/bootstrap.min.css" rel="stylesheet"></script>
-    <script src="<?php echo $base_url; ?>/assets/js/bootstrap.min.js" rel="stylesheet"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-     <?php include 'include/navbar.php'; ?>
+  <meta charset="UTF-8">
+  <title>User Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="<?php echo $base_url; ?>/assets/css/bootstrap.min.css" rel="stylesheet">
+  <link href="<?php echo $base_url; ?>/assets/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+  <link href="<?php echo $base_url; ?>/assets/fontawesome/css/brands.min.css" rel="stylesheet">
+  <link href="<?php echo $base_url; ?>/assets/fontawesome/css/solid.min.css" rel="stylesheet">
+
+  <style>
+  body {
+    background-color: #f8f9fa;
+  }
+
+  .user-card {
+    max-width: 500px;
+    margin: 80px auto;
+    padding: 2rem;
+    border-radius: 1rem;
+    background-color: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  </style>
 </head>
+
 <body>
-    <div class="container mt-5">
-        <?php 
 
-            if (isset($_SESSION['user_login'])) {
-                $user_id = $_SESSION['user_login'];
-                $stmt = $conn->query("SELECT * FROM users WHERE id = $user_id");
-                $stmt->execute();
-                $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            }
-        ?>
-        <h3 class="mt-4">Welcome<?php echo $row['firstname'] . ' ' . $row['lastname'] ?></h3>
+  <?php include 'include/navbar.php'; ?>
 
-        
-        </div>
-      
-        
-       
+  <div class="container">
+    <?php 
+      $user_id = $_SESSION['user_login'];
+      $stmt = $conn->query("SELECT * FROM users WHERE id = $user_id");
+      $stmt->execute();
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    ?>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="user-card text-center">
+      <h3 class="mb-3"><i class="fas fa-user-circle fa-2x text-primary"></i></h3>
+      <h4>ยินดีต้อนรับคุณ</h4>
+      <h5 class="text-muted"><?php echo $row['firstname'] . ' ' . $row['lastname']; ?></h5>
+      <p class="mt-3">คุณเข้าสู่ระบบเรียบร้อยแล้ว</p>
+
+      <div class="d-flex justify-content-center gap-3 mt-4">
+        <a href="<?php echo $base_url; ?>/signout.php" class="btn btn-danger">
+          <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
+        </a>
+        <a href="<?php echo $base_url; ?>" class="btn btn-outline-primary">
+          <i class="fas fa-home"></i> หน้าหลัก
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="<?php echo $base_url; ?>/assets/js/bootstrap.bundle.min.js"></script>
 </body>
 
-</html> 
+</html>

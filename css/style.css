@@ -1,0 +1,80 @@
+/* style.css */
+body {
+  padding-top: 70px;
+}
+
+.navbar {
+  background-color: black;
+}
+
+.navbar-brand img {
+  height: 50px;
+}
+
+.nav-link {
+  color: white !important;
+}
+
+.dropdown-menu {
+  background-color: #343a40;
+}
+
+.dropdown-item {
+  color: black !important;
+}
+
+.dropdown-item:hover {
+  background-color: #495057;
+}
+
+.custom-heading {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 3rem;
+  color: #4b8df8;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+  animation: textAnimate 1.5s ease-in-out infinite;
+}
+
+@keyframes textAnimate {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+}
+
+.custom-heading::before {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
+  animation: underlineAnimate 1.5s ease-in-out infinite;
+}
+
+@keyframes underlineAnimate {
+  0% {
+    transform: scaleX(0);
+    transform-origin: bottom right;
+  }
+  50% {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+  100% {
+    transform: scaleX(0);
+    transform-origin: bottom right;
+  }
+}

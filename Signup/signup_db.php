@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include 'db.php';
+include '../db.php';
 
 if (isset($_POST['signup'])) {
     $firstname = $_POST['firstname'];
@@ -45,7 +45,7 @@ if (isset($_POST['signup'])) {
             $check_email->execute();
             $row = $check_email->fetch(PDO::FETCH_ASSOC);
             if ($row['email'] == $email){
-                $_SESSION['warning'] = "อีเมลนี้ถูกใช้งานในระบบแล้ว <a href='signin.php'>คลิ๊กที่นี้</a>   เพื่อเข้าสู่ระบบ";
+                $_SESSION['warning'] = "อีเมลนี้ถูกใช้งานในระบบแล้ว <a href='../Signin/signin.php'>คลิ๊กที่นี้</a>   เพื่อเข้าสู่ระบบ";
                 header("location: signup.php");
             } else if(!isset($_SESSION['error'])) {
                 $passwordHash = password_hash($password, PASSWORD_DEFAULT);
@@ -58,7 +58,7 @@ if (isset($_POST['signup'])) {
                 $stmt->bindParam(":password", $passwordHash);
                 $stmt->bindParam(":urole", $urole);
                 $stmt->execute();
-                $_SESSION['success'] = "สมัครสมาชิกเรียบร้อย <a href='signin.php' class='alert-link'>คลิ๊กที่นี่</a> เพื่อเข้าสู่ระบบ";
+                $_SESSION['success'] = "สมัครสมาชิกเรียบร้อย <a href='../Signin/signin.php' class='alert-link'>คลิ๊กที่นี่</a> เพื่อเข้าสู่ระบบ";
                 header("location: signup.php");
             } else {
                 $_SESSION['error'] = "มีบางอย่างผิดพลาด";

@@ -1,6 +1,6 @@
 <?php 
 session_start();
-include 'config.php';
+include '../config.php';
 
 if(!empty($_GET['id'])) {
     $query_product = mysqli_query($conn, "SELECT * FROM products WHERE id='{$_GET['id']}'");

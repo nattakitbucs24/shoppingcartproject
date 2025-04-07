@@ -1,7 +1,7 @@
 <?php 
 
     session_start();
-    require_once 'db.php';
+    require_once '../db.php';
 
     if (isset($_POST['signin'])) {
         $email = $_POST['email'];
@@ -34,10 +34,10 @@
                         if (password_verify($password, $row['password'])) {
                             if ($row['urole'] == 'admin') {
                                 $_SESSION['admin_login'] = $row['id'];
-                                header("location: admin.php");
+                                header("location: ../Admin/admin.php");
                             } else {
                                 $_SESSION['user_login'] = $row['id'];
-                                header("location: user.php");
+                                header("location: ../user.php");
                             }
                         } else {
                             $_SESSION['error'] = 'รหัสผ่านผิด';
