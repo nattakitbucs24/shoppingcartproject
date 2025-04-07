@@ -79,7 +79,7 @@
             <a class="nav-link" href="<?php echo $base_url; ?>/signup.php">สมัครสมาชิก</a>
           </li>
           <li class="nav-item">
-            <a href="logout.php" class="btn btn-danger ms-2">Logout</a>
+            <a href="logout.php">Logout</a>
           </li>
         </ul>
 
