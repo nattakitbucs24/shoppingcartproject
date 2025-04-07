@@ -1,6 +1,6 @@
 <?php 
 session_start();
-include 'config.php';
+include '../config.php';
 
 // นำเข้าและเชื่อมต่อกับฐานข้อมูล
 $product_name = trim($_POST['product_name']);
