@@ -1,17 +1,31 @@
 <?php
 session_start();
-include '../config.php';
+require_once '../config.php';
 
-if (!empty($_GET['id'])) {
-    if (empty($_SESSION['cart'][$_GET['id']])) {
-        $_SESSION['cart'][$_GET['id']] = 1;
-    } else {
-        $_SESSION['cart'][$_GET['id']] += 1;
-    }
+header('Content-Type: application/json');
 
-    $_SESSION['message'] = 'Cart add success';
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = [];
 }
 
+$response = [
+    'success' => false,
+    'count' => 0
+];
 
-header('location: ' . $base_url . '/product-list.php');
-exit(); 
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+
+    $id = (int) $_GET['id'];
+
+    if (isset($_SESSION['cart'][$id])) {
+        $_SESSION['cart'][$id]++;
+    } else {
+        $_SESSION['cart'][$id] = 1;
+    }
+
+    $response['success'] = true;
+    $response['count'] = array_sum($_SESSION['cart']);
+}
+
+echo json_encode($response);
+exit();

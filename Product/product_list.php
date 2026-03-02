@@ -13,16 +13,16 @@ $rows = mysqli_num_rows($query);
 
 // Product select for editing
 if (!empty($_GET['id'])) {
-    $product_id = $_GET['id'];
-    $query_product = mysqli_query($conn, "SELECT * FROM products WHERE id = $product_id");
-    $row_product = mysqli_num_rows($query_product);
+  $product_id = $_GET['id'];
+  $query_product = mysqli_query($conn, "SELECT * FROM products WHERE id = $product_id");
+  $row_product = mysqli_num_rows($query_product);
 
-    if ($row_product == 0) {
-        header('location:' . $base_url . '/index.php');
-        exit;
-    }
+  if ($row_product == 0) {
+    header('location:' . $base_url . '/index.php');
+    exit;
+  }
 
-    $result = mysqli_fetch_assoc($query_product);
+  $result = mysqli_fetch_assoc($query_product);
 }
 
 // Get total products count for pagination
@@ -55,7 +55,7 @@ $total_page = ceil($total_rows / $perpage);
     <!-- Display header -->
     <div><?php require_once '../include/header.php'; ?></div><br><br><br> <!-- List Products -->
     <div class="row">
-      <?php while($product = mysqli_fetch_assoc($query)): ?>
+      <?php while ($product = mysqli_fetch_assoc($query)): ?>
       <div class="col-md-4 mb-4">
         <div class="card shadow-sm border-0 rounded">
           <img src="<?php echo $base_url; ?>/upload_image/<?php echo $product['profile_image']; ?>" class="card-img-top"
@@ -64,7 +64,7 @@ $total_page = ceil($total_rows / $perpage);
             <h5 class="card-title text-dark"><?php echo $product['product_name']; ?></h5>
             <p class="card-text text-muted">ID: <?php echo $product['id']; ?></p>
             <p class="card-text text-success fw-bold"><?php echo number_format($product['price'], 2); ?> BATH</p>
-            <a href="cart-add.php?id=<?php echo $product['id']; ?>" class="btn btn-primary w-100">
+            <a href="<?php echo $base_url; ?>Cart/cart-add.php?id=<?php echo $product['id']; ?>">
               <i class="fa-solid fa-cart-shopping me-1"></i> Add to Cart
             </a>
           </div>
@@ -73,7 +73,7 @@ $total_page = ceil($total_rows / $perpage);
       <?php endwhile; ?>
     </div>
     <div class="container mt-4">
-      <?php if(!empty($_SESSION['message'])): ?>
+      <?php if (!empty($_SESSION['message'])): ?>
       <div class="alert alert-warning alert-dismissible fade show" role="alert">
         <?php echo $_SESSION['message']; ?>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -82,8 +82,8 @@ $total_page = ceil($total_rows / $perpage);
       <?php endif; ?>
 
       <div class="row">
-        <?php if($rows > 0): ?>
-        <?php while($product = mysqli_fetch_assoc($query)): ?>
+        <?php if ($rows > 0): ?>
+        <?php while ($product = mysqli_fetch_assoc($query)): ?>
         <div class="col-md-2 mb-4">
           <div class="card">
             <?php if (!empty($product['profile_image'])): ?>

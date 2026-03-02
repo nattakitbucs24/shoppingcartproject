@@ -1,4 +1,5 @@
 <?php
+
 //var url
 $base_url = 'http://localhost/shoppingcart/';
 
@@ -8,12 +9,5 @@ $db_user = 'root';
 $db_pass = '';
 $db_name = 'shoppingcart';
 
-
 //connect db
-$conn = mysqli_connect($db_host, $db_user, $db_pass, $db_name) or die('connect failed'); 
-
-
-?>
-
-
-
+$conn = mysqli_connect($db_host, $db_user, $db_pass, $db_name) or die('connect failed');
