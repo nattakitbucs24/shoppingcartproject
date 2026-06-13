@@ -1,13 +1,14 @@
 <?php
 
-//var url
-$base_url = 'http://localhost/shoppingcart/';
+$host = "localhost";
+$user = "root";
+$pass = "";
+$db   = "nsrcford_db_project_php";
 
-//var database
-$db_host = 'localhost';
-$db_user = 'root';
-$db_pass = '';
-$db_name = 'shoppingcart';
+$conn = mysqli_connect($host, $user, $pass, $db);
 
-//connect db
-$conn = mysqli_connect($db_host, $db_user, $db_pass, $db_name) or die('connect failed');
+if (!$conn) {
+  die("Connection failed: " . mysqli_connect_error());
+}
+
+$base_url = "http://localhost/nsrcford_project_php";

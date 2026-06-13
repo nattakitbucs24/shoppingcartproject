@@ -1,62 +1,72 @@
-<?php 
+<?php
 
-    session_start();
-    require_once '../db.php';
+session_start();
+require_once '../db.php';
 
-    if (isset($_POST['signin'])) {
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+if (isset($_POST['signin'])) {
 
-      
-        if (empty($email)) {
-            $_SESSION['error'] = 'กรุณากรอกอีเมล';
-            header("location: signin.php");
-        } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $_SESSION['error'] = 'รูปแบบอีเมลไม่ถูกต้อง';
-            header("location: signin.php");
-        } else if (empty($password)) {
-            $_SESSION['error'] = 'กรุณากรอกรหัสผ่าน';
-            header("location: signin.php");
-        } else if (strlen($_POST['password']) > 20 || strlen($_POST['password']) < 5) {
-            $_SESSION['error'] = 'รหัสผ่านต้องมีความยาวระหว่าง 5 ถึง 20 ตัวอักษร';
-            header("location: signin.php");
-        } else {
-            try {
+    $login = trim($_POST['login']);
+    $password = trim($_POST['password']);
 
-                $check_data = $conn->prepare("SELECT * FROM users WHERE email = :email");
-                $check_data->bindParam(":email", $email);
-                $check_data->execute();
-                $row = $check_data->fetch(PDO::FETCH_ASSOC);
-
-                if ($check_data->rowCount() > 0) {
-
-                    if ($email == $row['email']) {
-                        if (password_verify($password, $row['password'])) {
-                            if ($row['urole'] == 'admin') {
-                                $_SESSION['admin_login'] = $row['id'];
-                                header("location: ../Admin/admin.php");
-                            } else {
-                                $_SESSION['user_login'] = $row['id'];
-                                header("location: ../user.php");
-                            }
-                        } else {
-                            $_SESSION['error'] = 'รหัสผ่านผิด';
-                            header("location: signin.php");
-                        }
-                    } else {
-                        $_SESSION['error'] = 'อีเมลผิด';
-                        header("location: signin.php");
-                    }
-                } else {
-                    $_SESSION['error'] = "ไม่มีข้อมูลในระบบ";
-                    header("location: signin.php");
-                }
-
-            } catch(PDOException $e) {
-                echo $e->getMessage();
-            }
-        }
+    if (empty($login) || empty($password)) {
+        $_SESSION['error'] = "กรุณากรอกข้อมูลให้ครบ";
+        header("location: signin.php");
+        exit();
     }
 
+    try {
 
-?>
+        $sql = "SELECT * FROM users 
+WHERE email = :email 
+OR username = :username 
+OR phone = :phone
+LIMIT 1";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindParam(":email", $login);
+        $stmt->bindParam(":username", $login);
+        $stmt->bindParam(":phone", $login);
+
+        $stmt->execute();
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user) {
+
+            if (password_verify($password, $user['password'])) {
+
+                session_regenerate_id(true);
+
+                if ($user['role'] == 'admin') {
+
+                    $_SESSION['admin_login'] = $user['id'];
+                    $_SESSION['success'] = "เข้าสู่ระบบสำเร็จ";
+
+                    header("location: ../admin/index.php");
+                    exit();
+                } else {
+
+                    $_SESSION['user_login'] = $user['id'];
+                    $_SESSION['success'] = "เข้าสู่ระบบสำเร็จ";
+
+                    header("location: ../index.php");
+                    exit();
+                }
+            } else {
+
+                $_SESSION['error'] = "รหัสผ่านไม่ถูกต้อง";
+                header("location: signin.php");
+                exit();
+            }
+        } else {
+
+            $_SESSION['error'] = "ไม่พบผู้ใช้งาน";
+            header("location: signin.php");
+            exit();
+        }
+    } catch (PDOException $e) {
+
+        echo "Database error: " . $e->getMessage();
+    }
+}

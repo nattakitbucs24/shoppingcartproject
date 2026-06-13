@@ -1,7 +1,7 @@
-<?php 
+<?php
 session_start();
 include '../config.php';
-
+/** @var mysqli $conn */
 // นำเข้าและเชื่อมต่อกับฐานข้อมูล
 $product_name = trim($_POST['product_name']);
 $price = $_POST['price'] ?: 0;
@@ -13,7 +13,7 @@ $folder = 'upload_image/';
 $image_location = $folder . $image_name;
 
 // เช็คว่ามีการส่ง ID หรือไม่
-if(empty($_POST['id'])) {
+if (empty($_POST['id'])) {
     // ถ้าไม่มี ID ให้ทำการเพิ่มข้อมูลใหม่
     $query = mysqli_query($conn, "INSERT INTO products (product_name, price, profile_image, detail, product_type) VALUES ('{$product_name}', '{$price}', '{$image_name}', '{$detail}', '{$product_type}')") or die('query failed');
 } else {
@@ -21,7 +21,7 @@ if(empty($_POST['id'])) {
     $query_product = mysqli_query($conn, "SELECT * FROM products WHERE id='{$_POST['id']}'");
     $result = mysqli_fetch_assoc($query_product);
 
-    if(empty($image_name)) {
+    if (empty($image_name)) {
         $image_name = $result['profile_image'];
     } else {
         @unlink($folder . $result['profile_image']);
@@ -30,7 +30,7 @@ if(empty($_POST['id'])) {
     $query = mysqli_query($conn, "UPDATE products SET product_name ='{$product_name}', price ='{$price}', profile_image ='{$image_name}', detail ='{$detail}', product_type ='{$product_type}' WHERE id ='{$_POST['id']}'") or die('query failed');
 }
 
-mysqli_close($conn); 
+mysqli_close($conn);
 
 // เช็คว่า Query สำเร็จหรือไม่
 if ($query) {

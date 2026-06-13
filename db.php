@@ -1,7 +1,7 @@
 <?php
 
 $servername = "localhost";
-$dbname     = "shoppingcart";
+$dbname     = "nsrcford_db_project_php";
 $username   = "root";
 $password   = "";
 

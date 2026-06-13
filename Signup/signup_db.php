@@ -1,74 +1,89 @@
 <?php
-session_start();
 
-include '../db.php';
+session_start();
+require_once '../db.php';
 
 if (isset($_POST['signup'])) {
-    $firstname = $_POST['firstname'];
-    $lastname = $_POST['lastname'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $c_password = $_POST['c_password'];
-    $urole = 'user';
- 
 
-    if (empty($firstname)) {
-        $_SESSION['error'] = 'กรุณากรอกชื่อ';
+    $username = trim($_POST['username']);
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
+    $c_password = trim($_POST['c_password']);
+    $role = 'user';
+
+    if (empty($username)) {
+        $_SESSION['error'] = 'กรุณากรอก Username';
         header("location: signup.php");
-    } else if (empty($lastname)) {
-        $_SESSION['error'] = 'กรุณากรอกนามสุกล';
-        header("location: signup.php");
-    } else if (empty($email)) {
+        exit();
+    }
+
+    if (empty($email)) {
         $_SESSION['error'] = 'กรุณากรอกอีเมล';
         header("location: signup.php");
+        exit();
+    }
 
-    } else if (!filter_var($email,  FILTER_VALIDATE_EMAIL)) {
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['error'] = 'รูปแบบอีเมลไม่ถูกต้อง';
         header("location: signup.php");
-    } else if (empty($password)) {
+        exit();
+    }
+
+    if (empty($password)) {
         $_SESSION['error'] = 'กรุณากรอกรหัสผ่าน';
         header("location: signup.php");
-    } else if (strlen($_POST['password']) > 20 || strlen($_POST['password']) < 5) {
-        $_SESSION['error'] = 'รหัสผ่านต้องมีความยาวระหว่าง 5 ถึง 20 ตัวอักษร';
+        exit();
+    }
+
+    if (strlen($password) < 5 || strlen($password) > 20) {
+        $_SESSION['error'] = 'รหัสผ่านต้องมี 5 - 20 ตัวอักษร';
         header("location: signup.php");
-    } else if (empty($c_password))  {
-        $_SESSION['error'] = 'กรุณายืนยันรหัสผ่าน';
-        header("location: signup.php");
-    } else if($password !=  $c_password){
+        exit();
+    }
+
+    if ($password !== $c_password) {
         $_SESSION['error'] = 'รหัสผ่านไม่ตรงกัน';
         header("location: signup.php");
-    } else {
-        try {
+        exit();
+    }
 
-            $check_email = $conn->prepare("SELECT email  FROM  users WHERE email = :email");
-            $check_email->bindParam(":email", $email);
-            $check_email->execute();
-            $row = $check_email->fetch(PDO::FETCH_ASSOC);
-            if ($row['email'] == $email){
-                $_SESSION['warning'] = "อีเมลนี้ถูกใช้งานในระบบแล้ว <a href='../Signin/signin.php'>คลิ๊กที่นี้</a>   เพื่อเข้าสู่ระบบ";
-                header("location: signup.php");
-            } else if(!isset($_SESSION['error'])) {
-                $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-                $stmt = $conn->prepare("INSERT INTO users(firstname, lastname, email, password, urole) 
-                VALUES(:firstname, :lastname, :email, :password, :urole)");
+    try {
 
-                $stmt->bindParam(":firstname", $firstname);
-                $stmt->bindParam(":lastname", $lastname);
-                $stmt->bindParam(":email", $email);
-                $stmt->bindParam(":password", $passwordHash);
-                $stmt->bindParam(":urole", $urole);
-                $stmt->execute();
-                $_SESSION['success'] = "สมัครสมาชิกเรียบร้อย <a href='../Signin/signin.php' class='alert-link'>คลิ๊กที่นี่</a> เพื่อเข้าสู่ระบบ";
-                header("location: signup.php");
-            } else {
-                $_SESSION['error'] = "มีบางอย่างผิดพลาด";
-                header("location: signup.php");
+        // เช็ค email ซ้ำ
+        $stmt = $conn->prepare("SELECT id FROM users WHERE email = :email LIMIT 1");
+        $stmt->bindParam(":email", $email);
+        $stmt->execute();
 
-            }
+        if ($stmt->fetch()) {
 
-        } catch (PDOException $e) {
-            echo $e->getMessage();
+            $_SESSION['warning'] = "อีเมลนี้ถูกใช้งานแล้ว 
+            <a href='../Signin/signin.php'>คลิกที่นี่เพื่อเข้าสู่ระบบ</a>";
+
+            header("location: signup.php");
+            exit();
         }
+
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+
+        $sql = "INSERT INTO users (username, email, password, role)
+                VALUES (:username, :email, :password, :role)";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindParam(":username", $username);
+        $stmt->bindParam(":email", $email);
+        $stmt->bindParam(":password", $passwordHash);
+        $stmt->bindParam(":role", $role);
+
+        $stmt->execute();
+
+        $_SESSION['success'] = "สมัครสมาชิกเรียบร้อย 
+        <a href='../Signin/signin.php'>เข้าสู่ระบบ</a>";
+
+        header("location: signup.php");
+        exit();
+    } catch (PDOException $e) {
+
+        echo "Database error: " . $e->getMessage();
     }
 }
-?>

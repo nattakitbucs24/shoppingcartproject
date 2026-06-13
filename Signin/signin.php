@@ -1,92 +1,414 @@
 <?php
 session_start();
-include '../config.php';
+require_once '../config.php';
 ?>
 
 <!DOCTYPE html>
 <html lang="th">
 
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>เข้าสู่ระบบ</title>
-  <link href="<?php echo $base_url; ?>/assets/css/bootstrap.min.css" rel="stylesheet">
-  <link href="<?php echo $base_url; ?>/assets/fontawesome/css/fontawesome.min.css" rel="stylesheet">
-  <link href="<?php echo $base_url; ?>/assets/fontawesome/css/brands.min.css" rel="stylesheet">
-  <link href="<?php echo $base_url; ?>/assets/fontawesome/css/solid.min.css" rel="stylesheet">
+
+  <title>Sign In</title>
+
+  <link href="<?= $base_url ?>/assets/css/bootstrap.min.css" rel="stylesheet">
+  <link href="<?= $base_url ?>/assets/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+  <link href="<?= $base_url ?>/assets/fontawesome/css/brands.min.css" rel="stylesheet">
+  <link href="<?= $base_url ?>/assets/fontawesome/css/solid.min.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <style>
-  body {
-    background: #f8f9fa;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-  }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-  .login-card {
-    width: 100%;
-    max-width: 400px;
-    padding: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-  }
+      background: linear-gradient(135deg,
+          #0f2027,
+          #203a43,
+          #2c5364);
 
-  .form-control:focus {
-    box-shadow: none;
-    border-color: #0d6efd;
-  }
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 450px;
+
+      background: rgba(255, 255, 255, .08);
+      backdrop-filter: blur(15px);
+
+      border: 1px solid rgba(255, 255, 255, .15);
+      border-radius: 25px;
+
+      padding: 35px;
+
+      box-shadow: 0 15px 40px rgba(0, 0, 0, .35);
+    }
+
+    .logo-icon {
+      width: 90px;
+      height: 90px;
+
+      background: linear-gradient(135deg, #ffc107, #ffda6a);
+      color: #000;
+
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin: auto;
+      margin-bottom: 20px;
+
+      font-size: 38px;
+    }
+
+    .login-title {
+      color: #fff;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .login-subtitle {
+      color: rgba(255, 255, 255, .7);
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .form-label {
+      color: #fff;
+    }
+
+    .input-group-text {
+      background: rgba(255, 255, 255, .08);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, .15);
+    }
+
+    .form-control {
+      background: rgba(255, 255, 255, .08);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, .15);
+    }
+
+    .form-control::placeholder {
+      color: rgba(255, 255, 255, .5);
+    }
+
+    .form-control:focus {
+      background: rgba(255, 255, 255, .12);
+      color: #fff;
+      border-color: #ffc107;
+      box-shadow: none;
+    }
+
+    .btn-login {
+      background: #ffc107;
+      color: #000;
+      font-weight: 600;
+      border: none;
+      border-radius: 50px;
+      padding: 12px;
+      transition: .3s;
+    }
+
+    .btn-login:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(255, 193, 7, .3);
+    }
+
+    .btn-signup {
+      border-radius: 50px;
+      padding: 12px;
+    }
+
+    .back-link {
+      color: #ffc107;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      color: #fff;
+    }
+
+    .divider {
+      color: rgba(255, 255, 255, .5);
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      background: linear-gradient(135deg,
+          #0f2027,
+          #203a43,
+          #2c5364);
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 450px;
+
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(15px);
+
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+
+      padding: 35px;
+
+      box-shadow: 0 20px 50px rgba(0, 0, 0, .35);
+    }
+
+    .logo-icon {
+      width: 90px;
+      height: 90px;
+
+      margin: 0 auto 20px;
+
+      border-radius: 50%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      background: #ffc107;
+      color: #000;
+
+      font-size: 38px;
+    }
+
+    .login-title {
+      text-align: center;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .login-subtitle {
+      text-align: center;
+      color: rgba(255, 255, 255, .7);
+      margin-bottom: 30px;
+    }
+
+    .form-label {
+      color: #fff;
+    }
+
+    .input-group-text {
+      background: rgba(255, 255, 255, .08);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, .15);
+    }
+
+    .form-control {
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .15);
+      color: #fff;
+    }
+
+    .form-control::placeholder {
+      color: rgba(255, 255, 255, .5);
+    }
+
+    .form-control:focus {
+      background: rgba(255, 255, 255, .12);
+      color: #fff;
+      border-color: #ffc107;
+      box-shadow: none;
+    }
+
+    .btn-login {
+      background: #ffc107;
+      color: #000;
+      border: none;
+      border-radius: 50px;
+      padding: 12px;
+      font-weight: 600;
+      transition: .3s;
+    }
+
+    .btn-login:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(255, 193, 7, .35);
+    }
+
+    .btn-signup {
+      border-radius: 50px;
+      padding: 12px;
+    }
+
+    .divider {
+      text-align: center;
+      color: rgba(255, 255, 255, .5);
+      margin: 20px 0;
+    }
+
+    .back-link {
+      color: #ffc107;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      color: #fff;
+    }
   </style>
+
 </head>
+
+```html
 
 <body>
 
   <div class="login-card">
-    <h4 class="text-center mb-4"><i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ</h4>
-    <?php if (isset($_SESSION['error'])) { ?>
-    <div class="alert alert-danger" role="alert">
-      <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
+
+    <div class="logo-icon">
+      <i class="fas fa-user-lock"></i>
     </div>
-    <?php } ?>
-    <?php if (isset($_SESSION['success'])) { ?>
-    <div class="alert alert-success" role="alert">
-      <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
-    </div>
-    <?php } ?>
-    <form action="signin_db.php" method="post">
+
+    <h2 class="login-title">
+      Welcome Back
+    </h2>
+
+    <p class="login-subtitle">
+      Sign in to continue your account
+    </p>
+
+    <form id="loginForm" action="signin_db.php" method="post">
+
       <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
+
+        <label class="form-label">
+          Email / Username / Phone
+        </label>
+
         <div class="input-group">
-          <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-          <input type="email" class="form-control" name="email" required>
+
+          <span class="input-group-text">
+            <i class="fas fa-user"></i>
+          </span>
+
+          <input type="text" class="form-control" name="login" placeholder="Enter email, username or phone" required
+            autocomplete="username">
+
         </div>
+
       </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">รหัสผ่าน</label>
+
+      <div class="mb-4">
+
+        <label class="form-label">
+          Password
+        </label>
+
         <div class="input-group">
-          <span class="input-group-text"><i class="fas fa-lock"></i></span>
-          <input type="password" class="form-control" name="password" required>
+
+          <span class="input-group-text">
+            <i class="fas fa-lock"></i>
+          </span>
+
+          <input type="password" class="form-control" name="password" placeholder="Enter your password" required
+            autocomplete="current-password">
+
         </div>
+
       </div>
-      <div class="d-grid mb-2">
-        <button type="submit" name="signin" class="btn btn-primary">
-          <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
+
+      <div class="d-grid">
+
+        <button type="submit" name="signin" class="btn btn-login">
+
+          <i class="fas fa-sign-in-alt me-2"></i>
+          Sign In
+
         </button>
+
       </div>
+
     </form>
 
-    <!-- ปุ่มสมัครสมาชิก -->
+    <div class="divider">
+      OR
+    </div>
+
     <div class="d-grid mb-3">
-      <a href="../Signup/signup.php" class="btn btn-outline-secondary">
-        <i class="fas fa-user-plus"></i> สมัครสมาชิก
+
+      <a href="<?= $base_url ?>/Signup/signup.php" class="btn btn-outline-light btn-signup">
+
+        <i class="fas fa-user-plus me-2"></i>
+        Create Account
+
       </a>
+
     </div>
 
     <div class="text-center">
-      <a href="<?php echo $base_url; ?>" class="btn btn-link">กลับหน้าหลัก</a>
+
+      <a href="<?= $base_url ?>" class="back-link">
+
+        <i class="fas fa-arrow-left me-1"></i>
+        Back to Home
+
+      </a>
+
     </div>
 
-    <script src="<?php echo $base_url; ?>/assets/js/bootstrap.bundle.min.js"></script>
+  </div>
+
+  <script src="<?= $base_url ?>/assets/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function() {
+
+      Swal.fire({
+        title: 'กำลังเข้าสู่ระบบ...',
+        text: 'กรุณารอสักครู่',
+        icon: 'info',
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        didOpen: () => {
+          Swal.showLoading()
+        }
+      });
+
+    });
+  </script>
+
+  <?php if (!empty($_SESSION['error'])): ?>
+    <script>
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: '<?= $_SESSION['error']; ?>',
+        confirmButtonColor: '#dc3545'
+      });
+    </script>
+  <?php unset($_SESSION['error']);
+  endif; ?>
+
+  <?php if (!empty($_SESSION['success'])): ?>
+    <script>
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: '<?= $_SESSION['success']; ?>',
+        confirmButtonColor: '#198754'
+      });
+    </script>
+  <?php unset($_SESSION['success']);
+  endif; ?>
+
 </body>
+```
+
 
 </html>
